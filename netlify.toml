@@ -30,11 +30,6 @@
   # You can set a specific timeout if needed
   # timeout = 10  # Time in seconds
 
-# Custom build settings (if using)
-[build]
-  command = "CI= npm run build"  # Command to run for building your site
-  publish = "build"  # Folder where the build output is stored
-
 # Additional configuration (optional)
 [context.production]
   environment = { MY_ENV_VARIABLE = "value" }  # Add any production-specific environment variables
