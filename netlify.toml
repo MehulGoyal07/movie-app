@@ -1,6 +1,46 @@
+# Basic Netlify configuration
 [build]
-  command = "npm run build"
-  publish = "build"  # Make sure this matches the folder where your build output is.
+  # The command to run for building your site
+  command = "CI= npm run build"  # Disable CI to prevent warnings from being treated as errors
+  # The folder to publish after the build is complete
+  publish = "build"  # Ensure this matches your build output folder
 
+# Environment variables for the build process
 [build.environment]
-  NODE_OPTIONS = "--openssl-legacy-provider"
+  NODE_OPTIONS = "--openssl-legacy-provider"  # Compatibility for OpenSSL
+
+# Redirect settings (if needed)
+[[redirects]]
+  from = "/*"  # All routes
+  to = "/index.html"  # Redirect to index for Single Page Applications
+  status = 200
+  force = true  # Force the redirect
+
+# Headers configuration (optional)
+[[headers]]
+  for = "/*"  # Apply these headers to all routes
+  [headers.values]
+    X-Frame-Options = "DENY"  # Prevents clickjacking
+    X-Content-Type-Options = "nosniff"  # Prevent MIME type sniffing
+    Content-Security-Policy = "default-src 'self'"  # Restrict resources
+
+# Functions settings (if using serverless functions)
+[functions]
+  directory = "functions"  # Directory where your serverless functions are stored
+  # You can set a specific timeout if needed
+  # timeout = 10  # Time in seconds
+
+# Custom build settings (if using)
+[build]
+  command = "CI= npm run build"  # Command to run for building your site
+  publish = "build"  # Folder where the build output is stored
+
+# Additional configuration (optional)
+[context.production]
+  environment = { MY_ENV_VARIABLE = "value" }  # Add any production-specific environment variables
+
+[context.deploy-preview]
+  environment = { MY_ENV_VARIABLE = "preview-value" }  # Environment variables for deploy previews
+
+[context.branch-deploy]
+  environment = { MY_ENV_VARIABLE = "branch-value" }  # Environment variables for branch deploys
